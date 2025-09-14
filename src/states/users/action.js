@@ -26,8 +26,8 @@ function getAllUserActionCreator(users) {
 }
 
 function asyncRegisterUser({ name, email, password }) {
-  nProgress.start();
   return async (dispatch) => {
+    nProgress.start();
     try {
       const userRegister = await api.registerUser({ name, email, password });
       dispatch(registerUserActionCreator(userRegister));
@@ -42,8 +42,8 @@ function asyncRegisterUser({ name, email, password }) {
 }
 
 function asyncGetAllUser() {
-  nProgress.start();
   return async (dispatch) => {
+    nProgress.start();
     try {
       const users = await api.getAllUsers();
       dispatch(getAllUserActionCreator(users));

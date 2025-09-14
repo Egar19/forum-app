@@ -2,13 +2,13 @@
 import React from 'react';
 
 const colors = [
-  'bg-red-500',
-  'bg-green-500',
-  'bg-blue-500',
-  'bg-yellow-500',
-  'bg-purple-500',
-  'bg-pink-500',
-  'bg-indigo-500',
+  'bg-info',
+  'bg-info-content',
+  'bg-warning',
+  'bg-warning-content',
+  'bg-error',
+  'bg-error-content',
+  'bg-success',
 ];
 
 function getColorForName(name) {

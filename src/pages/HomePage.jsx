@@ -16,7 +16,7 @@ const HomePage = () => {
           <PostCard key={d.id} {...d} />
         ))}
 
-        <Link to='/addpost'>
+        <Link to='/addthread'>
           <FloatingButton />
         </Link>
       </div>

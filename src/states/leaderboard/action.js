@@ -16,8 +16,8 @@ function receiveLeaderboardActtionCreator(leaderboard) {
 }
 
 function asyncPopulateLeaderboard() {
-  nProgress.start();
   return async (dispatch) => {
+    nProgress.start();
     try {
       const leaderboard = await api.getLeaderboards();
       dispatch(receiveLeaderboardActtionCreator(leaderboard));

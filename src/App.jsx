@@ -19,8 +19,8 @@ function App() {
         <div className='flex-1 ml-10 md:ml-40 p-4'>
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='/post/:id' element={<DetailPage />} />
-            <Route path='/addpost' element={<AddPage />} />
+            <Route path='/thread/:id' element={<DetailPage />} />
+            <Route path='/addthread' element={<AddPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/leaderboards' element={<LeaderboardsPage />} />

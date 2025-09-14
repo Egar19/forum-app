@@ -45,8 +45,8 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const success = await dispatch(asyncRegisterUser({
-      email: formData.email,
       name: formData.name,
+      email: formData.email,
       password: formData.password,
     }));
 

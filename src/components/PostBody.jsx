@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const PostBody = ({ id, title, description }) => {
   return (
     <div className='p-3 rounded bg-base-100'>
-      <Link to={`/post/${id}`} className='card-title'>{title}</Link>
+      <Link to={`/thread/${id}`} className='card-title'>{title}</Link>
       <p>{description}</p>
     </div>
   );

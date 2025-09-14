@@ -1,13 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormField from '../components/FormField';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { asyncCreateThread } from '../states/threads/action';
 
 const AddPage = () => {
   const [formData, setFormData] = useState({
     title: '',
     category: '',
-    description: '',
+    body: '',
   });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const authUser = useSelector((state) => state.authUser);
+
+  useEffect(() => {
+    if (!authUser) {
+      navigate('/login');
+    }
+  }, [authUser, navigate]);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onAddThread = (e) => {
+    e.preventDefault();
+    dispatch(asyncCreateThread(formData));
+    navigate('/');
+  };
 
   const fields = [
     {
@@ -23,34 +49,21 @@ const AddPage = () => {
       value: formData.category,
     },
     {
-      name: 'description',
+      name: 'body',
       type: 'text',
       placeholder: 'Description',
-      value: formData.description,
+      value: formData.body,
     },
   ];
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('New Post:', formData);
-    // TODO: dispatch ke redux atau fetch ke API
-  };
 
   return (
     <div className='ml-3 flex justify-center items-start rounded bg-base-300 pt-5 pb-10'>
       <FormField
-        title='Add Post'
+        title='Add Thread'
         fields={fields}
         buttonText='Submit'
         onChange={handleChange}
-        onSubmit={handleSubmit}
+        onSubmit={onAddThread}
       />
     </div>
   );
