@@ -5,15 +5,18 @@ import FloatingButton from '../components/FloatingButton';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { asyncPopulateUsersAndThreads } from '../states/shared/action';
+import {
+  asyncUpVoteThread,
+  asyncDownVoteThread,
+  asyncNeutralVoteThread,
+} from '../states/threads/action';
 
 const HomePage = () => {
   const dispatch = useDispatch();
 
   const threads = useSelector((state) => state.threads);
   const users = useSelector((state) => state.users);
-
-  console.log('threads:', threads);
-  console.log('users:', users);
+  const authUser = useSelector((state) => state.authUser);
 
   useEffect(() => {
     dispatch(asyncPopulateUsersAndThreads());
@@ -23,24 +26,27 @@ const HomePage = () => {
     <>
       <div className='w-full p-3'>
         <div className='mb-3'>
-          <CategoryList categories={threads.map((thread) => (thread.category))} />
+          <CategoryList categories={threads.map((thread) => thread.category)} />
         </div>
         {threads.map((thread) => {
           const owner = users.find((u) => u.id === thread.ownerId);
 
-          console.log(owner);
-
           return (
             <PostCard
               key={thread.id}
+              id={thread.id}
               body={thread.body}
               title={thread.title}
               category={thread.category}
               createdAt={thread.createdAt}
               totalComment={thread.totalComments}
-              upVotesBy={thread.upVotesBy.length}
-              downVotesBy={thread.downVotesBy.length}
-              name={owner ? owner.name : 'Anonim'} // fallback kalau user gak ketemu
+              upVotesBy={thread.upVotesBy}
+              downVotesBy={thread.downVotesBy}
+              name={owner ? owner.name : 'Anonim'}
+              authUserId={authUser ? authUser.id : null}
+              onUpVote={(id) => dispatch(asyncUpVoteThread(id))}
+              onDownVote={(id) => dispatch(asyncDownVoteThread(id))}
+              onNeutralVote={(id) => dispatch(asyncNeutralVoteThread(id))}
             />
           );
         })}
