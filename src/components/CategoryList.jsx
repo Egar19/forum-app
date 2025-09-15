@@ -1,9 +1,8 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import Category from './Category';
 
-const CategoryList = () => {
-
-  const categories = ['Category 1', 'Category 2', 'Category 3'];
+const CategoryList = ({ categories }) => {
 
   return (
     <div className='flex flex-col gap-2'>

@@ -41,24 +41,10 @@ function asyncRegisterUser({ name, email, password }) {
   };
 }
 
-function asyncGetAllUser() {
-  return async (dispatch) => {
-    nProgress.start();
-    try {
-      const users = await api.getAllUsers();
-      dispatch(getAllUserActionCreator(users));
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      nProgress.done();
-    }
-  };
-}
 
 export {
   ActionType,
   registerUserActionCreator,
   getAllUserActionCreator,
   asyncRegisterUser,
-  asyncGetAllUser
 };

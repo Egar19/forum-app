@@ -22,16 +22,14 @@ const DetailPage = () => {
         <PostHeader createdAt={item.createdAt} username={item.username} />
         <PostBodyDetail title={item.title} description={item.description} />
         <PostFooter
-          like={item.like}
-          dislike={item.dislike}
-          comment={item.comment}
+          upVotesBy={item.upVotesBy.lenght}
+          downVotesBy={item.downVotesBy.lenght}
+          totalComments={item.totalComment}
           category={item.category}
         />
         <CommentInput />
-        <h1 className='card-title'>Comments({item.comment})</h1>
-        <CommentCard comment={item.comment} />
-        <CommentCard comment={item.comment} />
-        <CommentCard comment={item.comment} />
+        <h1 className='card-title'>Comments({item.totalComment})</h1>
+        <CommentCard comment={item.totalComment} />
       </div>
     </div>
   );
