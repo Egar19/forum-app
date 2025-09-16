@@ -1,13 +1,35 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
 
-const CommentCard = () => {
+const CommentCard = ({
+  commentId,
+  body,
+  name,
+  createdAt,
+  authUserId,
+  upVotesBy = [],
+  downVotesBy = [],
+  onUpVote,
+  onDownVote,
+  onNeutralVote,
+}) => {
   return (
-    <div className='border-t-2 border-base-100 flex flex-col gap-2'>
-      <PostHeader username={'Bagas'} createdAt={'1 menit yang lalu'} />
-      <p className='p-3 rounded bg-base-100'>Comment 1</p>
-      <PostFooter like={10} dislike={1}/>
+    <div className="border-t-2 border-base-100 flex flex-col gap-2">
+      <PostHeader name={name} createdAt={createdAt} />
+
+      <p className="p-3 rounded bg-base-100">{body}</p>
+
+      <PostFooter
+        threadId={commentId}
+        authUserId={authUserId}
+        upVotesBy={upVotesBy}
+        downVotesBy={downVotesBy}
+        onUpVote={onUpVote}
+        onDownVote={onDownVote}
+        onNeutralVote={onNeutralVote}
+      />
     </div>
   );
 };

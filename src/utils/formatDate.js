@@ -19,13 +19,13 @@ export default function formatDate(dateString) {
   if (diffInSeconds < 60) {
     return 'baru saja';
   } else if (diffInMinutes < 60) {
-    return `${diffInMinutes} minute ago`;
+    return `${diffInMinutes} menit yang lalu`;
   } else if (diffInHours < 24) {
-    return `${diffInHours} hour ago`;
+    return `${diffInHours} jam yang lalu`;
   } else if (diffInDays < 7) {
-    return `${diffInDays} day ago`;
+    return `${diffInDays} hari yang lalu`;
   } else if (diffInWeeks < 4) {
-    return `${diffInWeeks} week ago`;
+    return `${diffInWeeks} minggu yang lalu`;
   } else {
     return date.toLocaleDateString('id-ID', {
       day: 'numeric',

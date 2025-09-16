@@ -9,8 +9,8 @@ import {
 
 const PostFooter = ({
   threadId,
-  upVotesBy,
-  downVotesBy,
+  upVotesBy = [],
+  downVotesBy = [],
   totalComments,
   category,
   onUpVote,
@@ -18,33 +18,36 @@ const PostFooter = ({
   onNeutralVote,
   authUserId,
 }) => {
-  const isUpVoted = upVotesBy.includes(authUserId);
-  const isDownVoted = downVotesBy.includes(authUserId);
+  const safeUpVotes = Array.isArray(upVotesBy) ? upVotesBy : [];
+  const safeDownVotes = Array.isArray(downVotesBy) ? downVotesBy : [];
+
+  const isUpVoted = safeUpVotes.includes(authUserId);
+  const isDownVoted = safeDownVotes.includes(authUserId);
 
   return (
-    <div className='flex gap-2'>
+    <div className="flex gap-2">
       {category && <Category category={category} />}
 
-      <div className='flex ml-auto gap-2 items-center'>
+      <div className="flex ml-auto gap-2 items-center">
         <button
-          className='cursor-pointer'
+          className="cursor-pointer"
           onClick={() =>
             isUpVoted ? onNeutralVote(threadId) : onUpVote(threadId)
           }
         >
           <HiOutlineThumbUp className={isUpVoted ? 'text-primary' : ''} />
         </button>
-        <span>{upVotesBy.length}</span>
+        <span>{safeUpVotes.length}</span>
 
         <button
-          className='cursor-pointer'
+          className="cursor-pointer"
           onClick={() =>
             isDownVoted ? onNeutralVote(threadId) : onDownVote(threadId)
           }
         >
           <HiOutlineThumbDown className={isDownVoted ? 'text-error' : ''} />
         </button>
-        <span>{downVotesBy.length}</span>
+        <span>{safeDownVotes.length}</span>
 
         {totalComments !== undefined && (
           <>
