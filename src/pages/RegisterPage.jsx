@@ -1,61 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
 import FormField from '../components/FormField';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { asyncRegisterUser } from '../states/users/action';
+import { useForm } from 'react-hook-form';
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
+  // setup react-hook-form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
+  // field config
   const fields = [
     {
       name: 'name',
       type: 'text',
       placeholder: 'Name',
-      value: formData.name,
     },
     {
       name: 'email',
       type: 'email',
       placeholder: 'Email',
-      value: formData.email,
     },
     {
       name: 'password',
       type: 'password',
       placeholder: 'Password',
-      value: formData.password,
     },
   ];
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const success = await dispatch(asyncRegisterUser({
-      name: formData.name,
-      email: formData.email,
-      password: formData.password,
-    }));
-
+  const onSubmit = async (data) => {
+    const success = await dispatch(asyncRegisterUser(data));
     if (success) {
       navigate('/login');
     }
-    // else {
-    //   navigate('/register');
-    // }
   };
 
   return (
@@ -64,12 +48,15 @@ const RegisterPage = () => {
         title="Register"
         buttonText="Register"
         fields={fields}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
+        register={register}
+        errors={errors}
       />
       <p>
         Already have an account?{' '}
-        <Link to="/login" className="text-primary">Login</Link>
+        <Link to="/login" className="text-primary">
+          Login
+        </Link>
       </p>
     </div>
   );

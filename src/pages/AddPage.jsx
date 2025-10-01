@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import FormField from '../components/FormField';
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { asyncCreateThread } from '../states/threads/action';
+import { useForm } from 'react-hook-form';
 
 const AddPage = () => {
-  const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    body: '',
-  });
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   useEffect(() => {
     if (!authUser) {
@@ -22,16 +22,8 @@ const AddPage = () => {
     }
   }, [authUser, navigate]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const onAddThread = (e) => {
-    e.preventDefault();
-    dispatch(asyncCreateThread(formData));
+  const onAddThread = (data) => {
+    dispatch(asyncCreateThread(data));
     navigate('/');
   };
 
@@ -40,30 +32,28 @@ const AddPage = () => {
       name: 'title',
       type: 'text',
       placeholder: 'Title',
-      value: formData.title,
     },
     {
       name: 'category',
       type: 'text',
       placeholder: 'Category',
-      value: formData.category,
     },
     {
       name: 'body',
       type: 'text',
       placeholder: 'Description',
-      value: formData.body,
     },
   ];
 
   return (
-    <div className='ml-3 flex justify-center items-start rounded bg-base-300 pt-5 pb-10'>
+    <div className="ml-3 flex justify-center items-start rounded bg-base-300 pt-5 pb-10">
       <FormField
-        title='Add Thread'
+        title="Add Thread"
         fields={fields}
-        buttonText='Submit'
-        onChange={handleChange}
-        onSubmit={onAddThread}
+        buttonText="Submit"
+        onSubmit={handleSubmit(onAddThread)}
+        register={register}
+        errors={errors}
       />
     </div>
   );

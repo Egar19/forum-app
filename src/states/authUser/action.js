@@ -36,7 +36,7 @@ function asyncLogin({ email, password }) {
       dispatch(loginActionCreator(authUser));
       console.log('Login berhasil!', authUser);
     } catch (error) {
-      console.log(error.message);
+      alert(error.message);
     } finally {
       nProgress.done();
     }

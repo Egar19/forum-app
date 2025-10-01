@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
 import CategoryList from '../components/CategoryList';
 import FloatingButton from '../components/FloatingButton';
@@ -18,6 +18,8 @@ const HomePage = () => {
   const threads = useSelector((state) => state.threads);
   const users = useSelector((state) => state.users);
   const authUser = useSelector((state) => state.authUser);
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   useEffect(() => {
     dispatch(asyncPopulateUsersAndThreads());
@@ -59,13 +61,25 @@ const HomePage = () => {
     dispatch(asyncNeutralVoteThread(id));
   };
 
+  // ambil unique categories
+  const uniqueCategories = [...new Set(threads.map((thread) => thread.category))];
+
+  // filter threads berdasarkan kategori
+  const filteredThreads = selectedCategory
+    ? threads.filter((thread) => thread.category === selectedCategory)
+    : threads;
+
   return (
     <div className='w-full p-3'>
       <div className='mb-3'>
-        <CategoryList categories={threads.map((thread) => thread.category)} />
+        <CategoryList
+          categories={uniqueCategories}
+          onSelectCategory={setSelectedCategory}
+          selectedCategory={selectedCategory}
+        />
       </div>
 
-      {threads.map((thread) => {
+      {filteredThreads.map((thread) => {
         const owner = users.find((u) => u.id === thread.ownerId);
 
         return (

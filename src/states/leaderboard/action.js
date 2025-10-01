@@ -6,7 +6,7 @@ const ActionType = {
   RECEIVE_LEADERBOARD: 'RECEIVE_LEADERBOARD',
 };
 
-function receiveLeaderboardActtionCreator(leaderboard) {
+function receiveLeaderboardActionCreator(leaderboard) {
   return {
     type: ActionType.RECEIVE_LEADERBOARD,
     payload: {
@@ -20,7 +20,7 @@ function asyncPopulateLeaderboard() {
     nProgress.start();
     try {
       const leaderboard = await api.getLeaderboards();
-      dispatch(receiveLeaderboardActtionCreator(leaderboard));
+      dispatch(receiveLeaderboardActionCreator(leaderboard));
     } catch (error) {
       console.log(error.message);
     } finally {
@@ -31,6 +31,6 @@ function asyncPopulateLeaderboard() {
 
 export {
   ActionType,
-  receiveLeaderboardActtionCreator,
+  receiveLeaderboardActionCreator,
   asyncPopulateLeaderboard,
 };

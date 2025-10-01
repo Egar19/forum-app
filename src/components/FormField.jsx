@@ -1,8 +1,15 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import FormInput from './FormInput';
 
-const FormField = ({ title, fields, buttonText, onChange, onSubmit }) => {
+const FormField = ({
+  title,
+  fields,
+  buttonText,
+  register,
+  errors,
+  onChange,
+  onSubmit,
+}) => {
   return (
     <form
       onSubmit={onSubmit}
@@ -13,14 +20,23 @@ const FormField = ({ title, fields, buttonText, onChange, onSubmit }) => {
       </legend>
 
       {fields.map((field, index) => (
-        <FormInput
-          key={index}
-          type={field.type}
-          placeholder={field.placeholder}
-          name={field.name}
-          value={field.value}
-          onChange={onChange}
-        />
+        <div key={index} className='mb-2'>
+          <input
+            type={field.type}
+            placeholder={field.placeholder}
+            className='input w-full mb-1'
+            name={field.name}
+            {...(register
+              ? register(field.name, { required: `${field.name} is required` })
+              : {
+                value: field.value,
+                onChange,
+              })}
+          />
+          {errors && errors[field.name] && (
+            <p className='text-error text-sm'>{errors[field.name].message}</p>
+          )}
+        </div>
       ))}
 
       <button type='submit' className='btn btn-neutral mt-4'>

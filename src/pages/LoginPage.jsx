@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import FormField from '../components/FormField';
 import { asyncLogin } from '../states/authUser/action';
 
@@ -9,9 +10,15 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const authUser = useSelector((state) => state.authUser);
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const fields = [
@@ -19,34 +26,25 @@ const LoginPage = () => {
       name: 'email',
       type: 'email',
       placeholder: 'Email',
-      value: formData.email,
     },
     {
       name: 'password',
       type: 'password',
       placeholder: 'Password',
-      value: formData.password,
     },
   ];
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(asyncLogin({
-      email: formData.email,
-      password: formData.password,
-    }));
+  const onSubmit = (data) => {
+    dispatch(asyncLogin(data));
   };
 
   useEffect(() => {
     if (authUser) {
-      navigate('/');
+      const timer = setTimeout(() => {
+        navigate('/');
+      }, 1000);
+
+      return () => clearTimeout(timer);
     }
   }, [authUser, navigate]);
 
@@ -56,12 +54,15 @@ const LoginPage = () => {
         title='Login'
         buttonText='Login'
         fields={fields}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
+        register={register}
+        errors={errors}
+        onSubmit={handleSubmit(onSubmit)}
       />
       <p>
         Don&apos;t have an account?{' '}
-        <Link to='/register' className='text-primary'>Register</Link>
+        <Link to='/register' className='text-primary'>
+          Register
+        </Link>
       </p>
     </div>
   );
