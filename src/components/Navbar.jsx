@@ -27,7 +27,7 @@ const Navbar = () => {
   return (
     <div className='menu bg-base-300 rounded-box h-screen flex-col justify-between'>
       <ul className='flex flex-col gap-2'>
-        <MenuTitle title={'Sambat'} />
+        <MenuTitle title={'Sambat App'} />
         <MenuItem icon={<HiHome />} path={'/'} label='Home' tooltip='Home' />
         <MenuItem
           path={'/leaderboards'}
