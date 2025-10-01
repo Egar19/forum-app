@@ -13,7 +13,7 @@ const CommentInput = ({ onAddComment }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form className="w-full">
       <fieldset className="fieldset">
         <legend className="fieldset-legend card-title">Leave a comment</legend>
 
